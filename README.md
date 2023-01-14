@@ -60,6 +60,27 @@ The Jenkins usage guide suggests to make a persistent volume with the command: -
       - Post-build Action
         - Archive the Artifacts: specify the exact files we want to have archived for each successful build.
           - **/hello-1.0-SNAPSHOT.jar
+- #### Scheduling Jobs
+  - Jenkins Scheduler Format
+    - *(Minute, 0-59)
+    -  *(Hour, 0-23)
+    -   *(Day of the Month)
+    -    *(Month)
+    -     *(Day of the week)
+      - * -> All
+      - H -> Spread out jobs around the desired time. That way if there are multiple jobs scheduled for the exact same time, Jenkins can spread them out.
+      - @hourly
+      - @daily
+      - @midnight
+      - @weekly
+      - @monthly
+- #### Views and Folders
+  - Views provide a way to associate jobs on a dashboard and display them together. Filter.
+  - Folders allow you to create structures that are very similar to file systems on a disc. Each folder can contain jobs, views and other folders.
+- #### Pipelines
+  - Stored in a file named Jenkinsfile. Can be versioned in a code repository. Configure Jenkins Jobs. Contain Stages and Steps
+  - Pipeline Stages are sections of the pipeline. These stages describe and manage the flow of the code through the pipeline.
+  - Steps are configured inside a Stage. Each Stage must have at least one Step. Steps are the actions taken at each Stage.
 
 ### Result
 Had a lot of problems in setting the port to be exposed and the volume in the Dockerfile. Best way was to set the environment with the especifications of the Dockerfile just relying on the main Jenkins image and the Docker command: docker run -d -p 8080:8080 -v jenkins_home:/var/jenkins_home --name jenkins image_built:image_tag.
