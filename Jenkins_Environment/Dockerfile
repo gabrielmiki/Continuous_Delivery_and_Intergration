@@ -1,2 +1,2 @@
 FROM jenkins/jenkins:lts-jdk11 
-LABEL Description="First Step image"
+LABEL org.opencontainers.image.source https://github.com/gabrielmiki/Continuous_Intergration.git
