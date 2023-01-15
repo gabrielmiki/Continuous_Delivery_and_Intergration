@@ -5,6 +5,7 @@ pipeline {
     IMAGE_NAME='gabrielmiki/jenkins'
     IMAGE_VERSION='latest'
   }
+  stages{
     stage('login to GHCR') {
       steps {
         sh 'echo $GITHUB_TOKEN_PSW | docker login ghcr.io -u $GITHUB_TOKEN_USR --password-stdin'
