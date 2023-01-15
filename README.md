@@ -89,3 +89,11 @@ The container published into GitHub packages linked in this repository (jenkins_
 
 ## Second Goal 
 For the second part the main goal is to set a docker compose enviroment, build a more complex pipeline and use a Jenkinsfile from this repo to set the Job stages and steps.
+
+### Docker Compose Configurations
+The docker compose file starts with the services statment. This part is responsible to define the containers to be used. It is posible to pick any name for the service, feature displayed rigth below the service statment and with an identation.
+Inside the named service, using the image state, the image to be pulled from the Docker Hub is instanciated. Other configurations such as command, port, volume, working_dir and environment are also set.
+The docker compose file is run with the command: docker compose up (-d, if want to dettach it).
+
+### Adding Plugins Through Docker Compose
+To add a plugin with a docker compose file it is important to set the service name and the image it comes from.
