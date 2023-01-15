@@ -5,6 +5,7 @@ Repo related to studies in continuous integration. Main goal is to develop abili
 Set the Jenkins environment with the Docker tool trough a Dockerfile. 
 Dockerfile documents must start with FROM, command which specifies the parent image from which we are building. It is possible to have more than one FROM in one Dockerfile to create multiple images or use one build stage as a dependency for another one.
 Based on Jenkins GitHub guide use it is possible to intall more tools. This is made running container as root via apt-get. It says as well that it is good practice to drop back to the regular jenkins user.
+Finaly, the objective is to make some initial configurations in the Jenkins environment created and publish in GitHub Packages.
 
 ### Building Dockerfiles 
 The Dockerfile are translated into images with the build command: docker build -t image_name:image_version Dockerfile_Path.
@@ -84,6 +85,7 @@ The Jenkins usage guide suggests to make a persistent volume with the command: -
 
 ### Result
 Had a lot of problems in setting the port to be exposed and the volume in the Dockerfile. Best way was to set the environment with the especifications of the Dockerfile just relying on the main Jenkins image and the Docker command: docker run -d -p 8080:8080 -v jenkins_home:/var/jenkins_home --name jenkins image_built:image_tag.
+The container published into GitHub packages linked in this repository (jenkins_dockerfile:1.0) envolves some Jenkins Jobs configured with the features described above.
 
 ## Second Goal 
-Set a docker compose enviroment.
+For the second part the main goal is to set a docker compose enviroment, build a more complex pipeline and use a Jenkinsfile from this repo to set the Job stages and steps.
