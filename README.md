@@ -91,9 +91,12 @@ The container published into GitHub packages linked in this repository (jenkins_
 For the second part the main goal is to set a docker compose enviroment, build a more complex pipeline and use a Jenkinsfile from this repo to set the Job stages and steps.
 
 ### Docker Compose Configurations
-The docker compose file starts with the services statment. This part is responsible to define the containers to be used. It is posible to pick any name for the service, feature displayed rigth below the service statment and with an identation.
-Inside the named service, using the image state, the image to be pulled from the Docker Hub is instanciated. Other configurations such as command, port, volume, working_dir and environment are also set.
+The docker compose file starts with the services statment. This part is responsible to define the containers to be used. It is posible to pick any name for the service, feature displayed rigth below the service statment and with an identation. We can create as much services as we want and aress each of the services created by the name given.
+Inside the named service, using the image state, the image to be pulled from the Docker Hub is instanciated, or the build state, to use a dockerfile in the current directory. Other configurations such as command, port, volume, working_dir and environment are also set.
 The docker compose file is run with the command: docker compose up (-d, if want to dettach it).
 
 ### Adding Plugins Through Docker Compose
 To add a plugin with a docker compose file it is important to set the service name and the image it comes from.
+
+### Docker Compose Utilities
+The compose file allows you to document and configure all the application's service dependencies. With the compose it is possible to start one or more containers along with the dependencies needed. Compose also provides a convinient way to creat and destroy isolate testing enviroments facilitating the continuous delivery and integration. Docker compose substitute the need to create several containers and use the Docker network to link them all.
