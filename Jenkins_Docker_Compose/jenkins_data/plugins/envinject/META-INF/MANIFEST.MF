@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Created-By: Maven Archiver 3.6.0
+Build-Jdk-Spec: 11
+Specification-Title: Environment Injector Plugin
+Specification-Version: 0.0
+Implementation-Title: Environment Injector Plugin
+Implementation-Version: 2.892.v25453b_80e595
+Plugin-Class: org.jenkinsci.plugins.envinject.EnvInjectPlugin
+Group-Id: org.jenkins-ci.plugins
+Short-Name: envinject
+Long-Name: Environment Injector Plugin
+Url: https://github.com/jenkinsci/envinject-plugin
+Compatible-Since-Version: 2.1.4
+Plugin-Version: 2.892.v25453b_80e595
+Hudson-Version: 2.332.1
+Jenkins-Version: 2.332.1
+Plugin-Dependencies: envinject-api:1.199.v3ce31253ed13,ivy:2.2;resolutio
+ n:=optional,matrix-project:771.v574584b_39e60,script-security:1158.v7c1
+ b_73a_69a_08
+Plugin-Developers: Gregory Boissinot:gbois:gregory.boissinot@gmail.com,O
+ leg Nenashev:oleg_nenashev:o.v.nenashev@gmail.com,Alexander Brandes:Not
+ MyFault:contact@notmyfault.dev,Manuel Recena:recena:recena@gmail.com
+Plugin-License-Name: MIT license
+Plugin-License-Url: https://opensource.org/licenses/MIT
+Plugin-ScmUrl: https://github.com/jenkinsci/envinject-plugin
+

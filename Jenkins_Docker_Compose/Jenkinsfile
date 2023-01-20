@@ -1,0 +1,22 @@
+pipeline {
+  agent any
+  stages {
+    stage('Build Application') {
+      steps {
+        sh "$scripts/build.sh"
+      }
+    }
+
+    stage('Run Unit Tests') {
+      steps {
+        sh "scripts/unit_tests.sh"
+      }
+    }
+
+    stage('Deploy Application') {
+      steps {
+        sh "scripts/deploy_application.sh"
+      }        
+    }
+  }
+}

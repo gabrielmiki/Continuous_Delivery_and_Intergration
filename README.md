@@ -17,6 +17,9 @@ Rely on the plugin manager CLI to set the plugins. Possible to install custom pl
 It is possible to set a volume in the Dockerfile. This statement declares that a specific path of the container must be mounted to a Docker volume. When you run the container, Docker will create an anonymous volume (volume with a unique id as the name) and mount it to the specified path. Appenrently the best way to create a volume is indeed, directly, trougth the command line.
 The Jenkins usage guide suggests to make a persistent volume with the command: -v jenkins_home:/var/jenkins_home. What creates a docker volume on the host machine retaining the content even when the container is stopped, started or deleted. 
 
+### Entrypoints
+Set the point, in the container, to start. Therfor offers the possibility to run specific commands from the command line.
+
 ### Jenkins Configuration  
 - #### Definitions
   - Job: A user-configured description of the work that Jenkins will manage
