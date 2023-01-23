@@ -1,26 +1,47 @@
-# Continuous_Intergration
+# Continuous Intergration and Countinuos Delivery 
 Repo related to studies in continuous integration. Main goal is to develop abilities in Jenkins and Docker tools.
+The continuous delivery starts with a quick, safe and sustainable delivery. These condition is achieved through a greater automation in the development cycle called continuous integration. A more complete and developed continuous delivery process involves an automated deployment pipeline devided in three stages: Continuous Integration, Automated Testing, Configuration Management.
+On the contrary, the traditional division in the development process (developers, quality assurance and operations), leads to slower deliverys, longer feedback cycles, and others. 
 
 ### First Goal
-Set the Jenkins environment with the Docker tool trough a Dockerfile. 
+Set the Jenkins environment with the Docker tool trough a Dockerfile. Jenkins is a tool that helps creating continuous integration and delivery pipelines.
 Dockerfile documents must start with FROM, command which specifies the parent image from which we are building. It is possible to have more than one FROM in one Dockerfile to create multiple images or use one build stage as a dependency for another one.
 Based on Jenkins GitHub guide use it is possible to intall more tools. This is made running container as root via apt-get. It says as well that it is good practice to drop back to the regular jenkins user.
 Finaly, the objective is to make some initial configurations in the Jenkins environment created and publish in GitHub Packages.
 
-### Building Dockerfiles 
-The Dockerfile are translated into images with the build command: docker build -t image_name:image_version Dockerfile_Path.
+### Docker Commit
+Once a container is created, in some cases, it is possible to interact with it and make some changes in it. In orther to maintain this configuration, it is possible to write an image based on that container with the docker commit command.
+```
+docker commit container_name image_name
+```
 
-### Plugins 
-Rely on the plugin manager CLI to set the plugins. Possible to install custom plugins with the Docker command: COPY --chown=jenkins:jenkins path/to/custom/hpi /usr/share/jenkins/ref/plugins/. Where the custom.hpi is the file contaning the plugin.
+### Building Dockerfiles 
+The Dockerfile is a file where it is possible to specify all the instructions that should be executed to build a Docker image. They are translated into images with the build command: 
+```
+docker build -t image_name:image_version Dockerfile_Path.
+```
+
+### Copy 
+Copies a file or directory into the filesystem of the image. 
+
+### Docker Networking
+Used to comunicate with other systems over the network. Originally there is no conection between the container and the host. Container has its own IP address found through inspect, under NetworkingSettings.
+```
+docker inspect container_name
+```
+
+### Expose 
+To expose a container's port we use the expose command, this does not mean that the port is automatically published.
 
 ### Volumes 
-It is possible to set a volume in the Dockerfile. This statement declares that a specific path of the container must be mounted to a Docker volume. When you run the container, Docker will create an anonymous volume (volume with a unique id as the name) and mount it to the specified path. Appenrently the best way to create a volume is indeed, directly, trougth the command line.
+It is possible to set a volume in the Dockerfile. This statement declares that a specific path of the container must be mounted to a Docker volume. When you run the container, Docker will create an anonymous volume (volume with a unique id as the name) and mount it to the specified path. It allows the container to write to the host's filesystem.
 The Jenkins usage guide suggests to make a persistent volume with the command: -v jenkins_home:/var/jenkins_home. What creates a docker volume on the host machine retaining the content even when the container is stopped, started or deleted. 
 
 ### Entrypoints
-Set the point, in the container, to start. Therfor offers the possibility to run specific commands from the command line.
+Set the point, in the container, to start. Therfor offers the possibility to run specific commands from the command line. Also defines which application should be run in the executable container.
 
-### Jenkins Configuration  
+### Jenkins Configuration
+Jenkins is a tool that allows the implementation of continuous integration and delivery. It supports most of the programming langueges and frameworks.     
 - #### Definitions
   - Job: A user-configured description of the work that Jenkins will manage
   - Build: When Jenkins run through the instructions in a job
@@ -66,7 +87,7 @@ Set the point, in the container, to start. Therfor offers the possibility to run
           - **/hello-1.0-SNAPSHOT.jar
 - #### Scheduling Jobs
   - Jenkins Scheduler Format
-    - *(Minute, 0-59)
+    - \*(Minute, 0-59)
     -  *(Hour, 0-23)
     -   *(Day of the Month)
     -    *(Month)
@@ -87,7 +108,10 @@ Set the point, in the container, to start. Therfor offers the possibility to run
   - Steps are configured inside a Stage. Each Stage must have at least one Step. Steps are the actions taken at each Stage.
 
 ### Result
-Had a lot of problems in setting the port to be exposed and the volume in the Dockerfile. Best way was to set the environment with the especifications of the Dockerfile just relying on the main Jenkins image and the Docker command: docker run -d -p 8080:8080 -v jenkins_home:/var/jenkins_home --name jenkins image_built:image_tag.
+Had a lot of troubles setting the port to be exposed and the volume in the Dockerfile. Best way was to set the environment with the especifications of the Dockerfile just relying on the main Jenkins image and the Docker command:
+```
+docker run -d -p 8080:8080 -v jenkins_home:/var/jenkins_home --name jenkins image_built:image_tag
+```
 The container published into GitHub packages linked in this repository (jenkins_dockerfile:1.0) envolves some Jenkins Jobs configured with the features described above.
 
 ## Second Goal 
@@ -102,4 +126,19 @@ The docker compose file is run with the command: docker compose up (-d, if want 
 To add a plugin with a docker compose file it is important to set the service name and the image it comes from.
 
 ### Docker Compose Utilities
-The compose file allows you to document and configure all the application's service dependencies. With the compose it is possible to start one or more containers along with the dependencies needed. Compose also provides a convinient way to creat and destroy isolate testing enviroments facilitating the continuous delivery and integration. Docker compose substitute the need to create several containers and use the Docker network to link them all.
+The compose file allows you to document and configure all the application's service dependencies. With the compose it is possible to start one or more containers along with the dependencies needed. Compose also provides a convinient way to creat and destroy isolate testing enviroments facilitating the continuous delivery and integration. Docker compose substitute the need to create several containers and use the Docker network to link them all. 
+
+### Master and Slaves
+The Jnekins Master is resposible for receiving build triggers, send notifications, handling HTTP requests and managing the build environment. The Jenkins Slave, otherwise, takes care of everything that happens after the build starts. Master and slaves communicate wether through the SSH protocol, or via Java web start. Beyond the communication settings it is possible to configure the slaves to be static or dynamic and also generic or specific. This possibilities leads us to four different strategies for agents configurations:
+1. Permanent Agents 
+2. Permanent Docker Agents
+3. Jenkins Swarm Agets
+4. Dynamically provisioned Docker Agents
+
+#### 1. Permanent Agents
+
+
+### Vertical and Horizontal Scaling 
+A vertical scaling is related to a growth in the resources applied to the master's machine and its main advatage is the maintance of the process. The horizontal scaling is related to a multiplication of the master.
+
+
