@@ -136,7 +136,37 @@ The Jnekins Master is resposible for receiving build triggers, send notification
 4. Dynamically provisioned Docker Agents
 
 #### 1. Permanent Agents
+Permanently add agent nodes. Implies the need of multiple agent types for different projects. This configuration can be done through Jenkins UI, Manage Nodes section. Some of the parameters to be defined when creating a new node:
+- # of executions: number of builds that can be run on the slave.
+- Remote root directory: directory the agent uses to run build jobs.
+- Labels: tags to match specific builds
+- Usage: defines wether the node will be used for specific builds or general ones.
+- Launch Method: via Java Web Start, via execution of command on the master, via SSH
+- Availability: agent should be up all the time or just under certain conditions.
 
+#### 2. Permanent Docker Agents 
+Each slave is identically configured (with Docker installed), and each build is defined along with the Docker image inside which the build is run. When the build is started, the Jenkins slave starts a container from the Docker image and executes all the pipeline steps inside that container. This excludes the ceed to configurwe multiple slaves for diferent project types.
+```
+pipeline {
+  agent {
+    docker {
+      image "image_name"
+    }
+  }
+  ...
+}
+```
+
+#### 3. Jenkins Swarm Agents
+Jenkins Swarm allows you to dynamically add slaves. In orther to use Jenkins Swarm Agents it is necessary to have the Self-Organizing Plugin Modules and run the Jenkins Swarm slave application in every agent.
+
+#### 4. Dinamically Provisioned Docker Agents
+Sets up Jenkins to dinamically creates a new agent each time a build is started. The number of slaves dinamically adjusts to the number of builds. When Jenkins job is started the master runs a new container from the jenkins-slave image on the slave Docker host.
+1. Install Docker Plugin
+2. On the manager jenkins page, click on the Configure System link 
+3. On the cloud section, click on Add a new Cloud and choose Docker
+4. Configure the Docker agent details (Docker host URL, Add a Docker Template, Max number of Slaves)
+The main difference between this solution and the Permanent Docker Agent is that the entire agent is dockerize, instead of just the environment.
 
 ### Vertical and Horizontal Scaling 
 A vertical scaling is related to a growth in the resources applied to the master's machine and its main advatage is the maintance of the process. The horizontal scaling is related to a multiplication of the master.
