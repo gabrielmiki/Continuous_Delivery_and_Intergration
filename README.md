@@ -171,4 +171,42 @@ The main difference between this solution and the Permanent Docker Agent is that
 ### Vertical and Horizontal Scaling 
 A vertical scaling is related to a growth in the resources applied to the master's machine and its main advatage is the maintance of the process. The horizontal scaling is related to a multiplication of the master.
 
+### Commit Pipeline
+Starts with a commit to the main repository and results in a report about the build success or failure. Since it runs after each change a limit amount of time and resource are important. This phase is the starting point of the Continuous Delivery process and provides constant information if the code is in healthy state.
+- Developer Checks in the code to the Repository -> CI Server detects the Change -> Build Starts
+- Fundamental Commit Pipeline Stages:
+	- Checkout: download code from the repository
+	- Compile: compile the source code
+	- Unit Tests: run a suite of unit tests
 
+
+#### Checkout Stage
+```
+pipeline {
+  agents any
+  stages {
+    stage("Checkout") {
+      steps {
+        git url: 
+      }
+    }
+  }
+}
+```
+
+#### Compile Stage 
+```
+stage("Compile") {
+  steps {
+    sh "./gradlew compileJava"
+  }
+}
+
+#### Unit Tests Stage
+```
+stage("Unit Test") {
+  steps {
+    sh "./gradlew test"
+  }
+}
+```

@@ -1,0 +1,33 @@
+pipeline {
+  # Uses any avaiable agent
+  agents any
+  # Execute automatically every minute
+  triggers { cron('* * * * *') }
+  # Stops if the execution takes more than five minutes
+  options { timeout(time: 5) }
+  # Ask the user for the boolean parameter before starting
+  parameters {
+    booleanParam(name: 'DEBUG_BUILD', defaultValue: true,
+    description: 'Is it the debug build?')
+  }
+
+  stages {
+    stage('Example') {
+      environment { NAME = 'Rafal' }
+      when { expression { return params.DEBUG_BUILD } }
+      # In the case of true input parameter
+      steps {
+        echo "Hello from $NAME"
+        # Executes a block of Groovy-based code.
+        script {
+          def browsers = ['chrome', 'firefox']
+          for (int i = 0; i < browsers.size(); ++i) {
+            echo "Testing the ${browser[i]} browser."
+          }
+        }
+      } 
+    }
+  }
+  # Print regardless of whether there are any errors during the execution
+  post { always { echo 'I will always say Hello again!' } } 
+}

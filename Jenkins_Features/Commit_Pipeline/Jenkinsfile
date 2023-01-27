@@ -1,0 +1,23 @@
+pipeline {
+  agents any
+  stages {
+    stage("Checkout") {
+      steps {
+        git url:
+      }
+    }
+    
+    stage("Compile") {
+      steps {
+        sh "./gratlew compileJava"
+        echo "Code Compile Completed!"  
+      }
+    }
+
+    stage("Unit Test") {
+      steps {
+        sh "./gradlew test"
+      }
+    }  
+  }
+}

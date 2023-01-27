@@ -3,7 +3,13 @@ pipeline {
   stages {
     stage("Hello") {
       steps {
+        sleep 300
         echo 'Hello World'
+      }
+    }
+    stage("Second Stage") {
+      steps {
+        echo 'Step 2. Second time Hello.'
       }
     }
   }
