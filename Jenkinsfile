@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage("Compile") {
       steps {
-        sh "./gratlew compileJava"
+        sh "javac app/src/main/java/commit_pipeline/App.java"
         echo "Code Compile Completed!"
       }
     }
