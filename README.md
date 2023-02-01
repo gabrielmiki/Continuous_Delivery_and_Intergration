@@ -88,10 +88,10 @@ Jenkins is a tool that allows the implementation of continuous integration and d
 - #### Scheduling Jobs
   - Jenkins Scheduler Format
     - \*(Minute, 0-59)
-    -  *(Hour, 0-23)
-    -   *(Day of the Month)
-    -    *(Month)
-    -     *(Day of the week)
+    - \s\*(Hour, 0-23)
+    - \s\s\*(Day of the Month)
+    - \s\s\s\*(Month)
+    - \s\s\s\s\*(Day of the week)
       - * -> All
       - H -> Spread out jobs around the desired time. That way if there are multiple jobs scheduled for the exact same time, Jenkins can spread them out.
       - @hourly
@@ -201,7 +201,7 @@ stage("Compile") {
     sh "./gradlew compileJava"
   }
 }
-
+```
 #### Unit Tests Stage
 ```
 stage("Unit Test") {
@@ -209,4 +209,79 @@ stage("Unit Test") {
     sh "./gradlew test"
   }
 }
+```
+
+### Code Quality Stages
+
+#### Code Coverage
+Tests and verifies which parts of the code have been executed, than creates a report that shows the untested sections. 
+
+##### JaCoCo
+One tool to do such a thing is the JaCoCo. 
+In orther to set the build to fail in case of low code coverage (20% in this case):
+```
+jacocoTestCoverageVerification {
+  violationRuled {
+    rule {
+      limit {
+        minimum = 0.2
+      }
+    }
+  }
+}
+```
+The Jenkinsfile stage and step are:
+```
+stage("Code Coverage") {
+  steps {
+    sh "./gradlew jacocoTestReport"
+    sh "./gradlew jacocoTestCoverageVerification"
+  }
+}
+```
+
+#### Static Code Analysis
+The static code analysis is the automatic process of checking the code without actually executing it. In most cases, it implies checking a number of rules on the source code. These rules may apply, for example: all public classes need to have a Javadoc comment, the maximum length of a line, ... Some of the tools to perform static code on the Java code are: CheckStyle, FindBugs and PMD. 
+
+#### Adding a Checkstyle Configuration
+In orther to add the Checkstyle configuration, we need to define the rules against which the code is checked. This is done by specifying the config/checkstyle/checkstyle.xml file:
+```
+<?xml version = "1.0">
+<!DOCTYPE module public
+  "-//Puppy Crawl
+...
+</module>
+```
+
+#### Add the Checkstyle to the build.gradle ???
+```
+apply plugin: 'checkstyle'
+```
+
+#### Use the tool only for the source code and run it
+```
+checkstyle {
+  checkstyleTest.enable = false
+}
+```
+```
+$ ./gradlew checkstyleMain
+```
+
+#### Adding Static Code Analysis to Pipeline
+Finally we add the analysis to the pipeline:
+```
+stage("Static code Analysis") {
+  stapes {
+    sh "./gradlew checkstyleMain"
+  }
+}
+```
+And to displey the Checkstyle report to Jenkins:
+```
+publishHTML (target: [
+  reportDir: 'build/reports/checkstyle',
+  reportFiles: 'main.html',
+  reportName: "Checkstyle Report"
+])
 ```
